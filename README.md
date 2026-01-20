@@ -47,17 +47,20 @@ It's based on the following blog post: [https://medium.com/gett-engineering/rxsw
 
 | RxSwift               | Combine                                  | Notes                                                                                                    |
 |-----------------------|------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| allSatisfy            | allSatisfy                               |                                                                                                          |
 | amb()                 | ❌                                        |                                                                                                          |
 | asObservable()        | eraseToAnyPublisher()                    |                                                                                                          |
 | asObserver()          | ❌                                        |                                                                                                          |
 | bind(to:)             | `assign(to:on:)`                         | Assign uses a KeyPath which is really nice and useful. RxSwift needs a Binder / ObserverType to bind to. |
 | buffer                | buffer                                   |                                                                                                          |
-| catchError            | catch                                    |                                                                                                          |
-| catchErrorJustReturn  | replaceError(with:)                      |                                                                                                          |
+| catch                 | catch                                    |                                                                                                          |
+| catchAndReturn        | replaceError(with:)                      |                                                                                                          |
 | combineLatest         | combineLatest, tryCombineLatest          |                                                                                                          |
 | compactMap            | compactMap, tryCompactMap                |                                                                                                          |
 | concat                | append, prepend                          |                                                                                                          |
 | concatMap             | ❌                                        |                                                                                                          |
+| contains              | contains                                 |                                                                                                          |
+| count                 | count                                    |                                                                                                          |
 | create                | ❌                                        | Apple removed AnyPublisher with a closure in Xcode 11 beta 3 :-(                                         |
 | debounce              | debounce                                 |                                                                                                          |
 | debug                 | print                                    |                                                                                                          |
@@ -67,12 +70,13 @@ It's based on the following blog post: [https://medium.com/gett-engineering/rxsw
 | dematerialize         | ❌                                        |                                                                                                          |
 | distinctUntilChanged  | removeDuplicates, tryRemoveDuplicates    |                                                                                                          |
 | do                    | handleEvents                             |                                                                                                          |
-| elementAt             | output(at:)                              |                                                                                                          |
+| element(at:)          | output(at:)                              |                                                                                                          |
 | empty                 | Empty(completeImmediately: true)         |                                                                                                          |
 | enumerated            | ❌                                        |                                                                                                          |
 | error                 | Fail                                     |                                                                                                          |
 | filter                | filter, tryFilter                        |                                                                                                          |
 | first                 | first, tryFirst                          |                                                                                                          |
+| first(where:)         | first(where:), tryFirst(where:)          |                                                                                                          |
 | flatMap               | flatMap                                  |                                                                                                          |
 | flatMapFirst          | ❌                                        |                                                                                                          |
 | flatMapLatest         | switchToLatest                           |                                                                                                          |
@@ -83,34 +87,39 @@ It's based on the following blog post: [https://medium.com/gett-engineering/rxsw
 | ignoreElements        | ignoreOutput                             |                                                                                                          |
 | interval              | ❌                                        |                                                                                                          |
 | just                  | Just                                     |                                                                                                          |
+| last(where:)          | last(where:), tryLast(where:)            |                                                                                                          |
 | map                   | map, tryMap                              |                                                                                                          |
 | materialize           | ❌                                        |                                                                                                          |
+| max                   | max                                      |                                                                                                          |
 | merge                 | merge, tryMerge                          |                                                                                                          |
 | merge(maxConcurrent:) | flatMap(maxPublishers:)                  |                                                                                                          |
+| min                   | min                                      |                                                                                                          |
 | multicast             | multicast                                |                                                                                                          |
 | never                 | Empty(completeImmediately: false)        |                                                                                                          |
-| observeOn             | receive(on:)                             |                                                                                                          |
+| observe(on:)          | receive(on:)                             |                                                                                                          |
 | of                    | Sequence.publisher                       | `publisher` property on any `Sequence` or you can use `Publishers.Sequence(sequence:)` directly          |
 | publish               | makeConnectable                          |                                                                                                          |
 | range                 | ❌                                        |                                                                                                          |
 | reduce                | reduce, tryReduce                        |                                                                                                          |
 | refCount              | autoconnect                              |                                                                                                          |
 | repeatElement         | ❌                                        |                                                                                                          |
+| retry(when:)          | ❌                                        |                                                                                                          |
 | retry, retry(3)       | retry, retry(3)                          |                                                                                                          |
-| retryWhen             | ❌                                        |                                                                                                          |
 | sample                | ❌                                        |                                                                                                          |
 | scan                  | scan, tryScan                            |                                                                                                          |
 | share                 | share                                    | There’s no replay or scope in Combine. Could be “faked” with multicast.                                  |
 | skip(3)               | dropFirst(3)                             |                                                                                                          |
-| skipUntil             | drop(untilOutputFrom:)                   |                                                                                                          |
-| skipWhile             | drop(while:), tryDrop(while:)            |                                                                                                          |
+| skip(until:)          | drop(untilOutputFrom:)                   |                                                                                                          |
+| skip(while:)          | drop(while:), tryDrop(while:)            |                                                                                                          |
 | startWith             | prepend                                  |                                                                                                          |
 | subscribe             | sink                                     |                                                                                                          |
-| subscribeOn           | subscribe(on:)                           | RxSwift uses Schedulers. Combine uses RunLoop, DispatchQueue, and OperationQueue.                        |
+| subscribe(on:)        | subscribe(on:)                           | RxSwift uses Schedulers. Combine uses RunLoop, DispatchQueue, and OperationQueue.                        |
 | take(1)               | prefix(1)                                |                                                                                                          |
+| take(until:)          | prefix(untilOutputFrom:)                 |                                                                                                          |
+| take(while:)          | prefix(while:), tryPrefix(while:)        |                                                                                                          |
 | takeLast              | last                                     |                                                                                                          |
-| takeUntil             | prefix(untilOutputFrom:)                 |                                                                                                          |
 | throttle              | throttle                                 |                                                                                                          |
+| timeInterval          | measureInterval                          |                                                                                                          |
 | timeout               | timeout                                  |                                                                                                          |
 | timer                 | Timer.publish                            |                                                                                                          |
 | toArray()             | collect()                                |                                                                                                          |
